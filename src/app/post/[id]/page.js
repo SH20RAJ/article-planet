@@ -45,7 +45,7 @@ export default function YourPageName({ params }) {
       )}
       {/* Render post content as HTML */}
       <div dangerouslySetInnerHTML={{ __html: postContent }}></div>
-      <Link href="../">Go Back</Link>
+      <Link href="../post/">Go Back</Link>
     </div>
   );
 }
