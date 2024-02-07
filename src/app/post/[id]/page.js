@@ -1,7 +1,15 @@
-''
+// pages/your-page-name.js
+
+import Link from 'next/link'; // Import Link component from next/link
+import Nav from "../../nav"; // Assuming Nav component is in the components directory
+
 export default function Page({ params }) {
-  console.log(params.slug)
   return (
-  <div>My Post: {params.slug}  <a href="../">../</a></div>
-  )
+    <>
+      <Nav />
+      <div>
+        My Post: {params.id} <Link href="../">Go Back</Link>
+      </div>
+    </>
+  );
 }
