@@ -13,13 +13,15 @@ export default function RootLayout({ children }) {
         <head>
             
         </head>
-      <body>
+        <body>
+        
         <Nav />
         <Container html={children}  />
         <div class="hideshare"></div>
 
         <Related />
         <Footer />
+        
 
       </body>
     </html>
