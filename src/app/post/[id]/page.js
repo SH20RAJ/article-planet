@@ -1,56 +1,53 @@
-// pages/[id].js
+// pages/your-page-name.js
 'use client'
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import showdown from 'showdown';
+import showdown from 'showdown'; // Import showdown for Markdown to HTML conversion
 
-export default function YourPageName({ gistData }) {
+export default function YourPageName({ params }) {
+  const [gistData, setGistData] = useState(null);
   const [postContent, setPostContent] = useState('');
+  const gistId = params.id; // Assuming you're receiving the ID from props
 
   useEffect(() => {
-    if (gistData) {
-      const markdownContent = gistData.files[Object.keys(gistData.files)[0]].content;
-      const converter = new showdown.Converter();
-      const htmlContent = converter.makeHtml(markdownContent);
-      setPostContent(htmlContent);
+    const fetchGistData = async () => {
+      try {
+        const response = await fetch(`https://api.github.com/gists/${gistId}`);
+        const data = await response.json();
+        setGistData(data);
+
+        // Extract Markdown content from Gist data
+        const markdownContent = data.files[Object.keys(data.files)[0]].content;
+
+        // Convert Markdown to HTML
+        const converter = new showdown.Converter();
+        const htmlContent = converter.makeHtml(markdownContent);
+        setPostContent(htmlContent);
+      } catch (error) {
+        console.error('Error fetching Gist data:', error);
+      }
+    };
+
+    if (gistId) {
+      fetchGistData();
     }
-  }, [gistData]);
+  }, [gistId]);
 
   return (
     <div>
-      <h1>My Post: {gistData && gistData.description}</h1>
+      <h1>My Post: {gistId}</h1>
       {gistData && (
         <div>
           <p>Title: {gistData.description}</p>
           <p>Published Date: {gistData.updated_at}</p>
+          {/* Add other relevant data here */}
         </div>
       )}
+      {/* Render post content as HTML */}
       <div dangerouslySetInnerHTML={{ __html: postContent }}></div>
-      <Link href="/post"><a>Go Back</a></Link>
+      <Link href="../post/">Go Back</Link>
     </div>
   );
 }
 
-export async function getStaticPaths() {
-  // Fetch a list of Gist IDs from your API or database
-  // Here, you need to provide an array of paths, each containing the params object
-  // For example:
-  const paths = [
-    { params: { id: 'gist_id_1' } },
-    { params: { id: 'gist_id_2' } },
-    // Add more paths as needed
-  ];
-
-  return { paths, fallback: false };
-}
-
-export async function getStaticProps({ params }) {
-  try {
-    const response = await fetch(`https://api.github.com/gists/${params.id}`);
-    const gistData = await response.json();
-    return { props: { gistData } };
-  } catch (error) {
-    console.error('Error fetching Gist data:', error);
-    return { props: { gistData: null } };
-  }
-}
+// This is just a basic example to get you started. You can expand upon it as needed.
