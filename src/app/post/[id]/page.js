@@ -1,5 +1,5 @@
 // pages/[id].js
-
+'use client'
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import showdown from 'showdown';
