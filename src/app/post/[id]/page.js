@@ -1,52 +1,33 @@
-'use client'
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import showdown from 'showdown'; // Import showdown for Markdown to HTML conversion
+import showdown from "showdown";
+import "@/assets/css/mediumish.css"
+import "@/assets/css/bootstrap.min.css"
 
-export default function YourPageName({ params }) {
-  const [gistData, setGistData] = useState(null);
-  const [postContent, setPostContent] = useState('');
-  const gistId = params.id; // Assuming you're receiving the ID from props
-
-  useEffect(() => {
-    const fetchGistData = async () => {
-      try {
-        const response = await fetch(`https://api.github.com/gists/${gistId}`);
-        const data = await response.json();
-        setGistData(data);
-
-        // Extract Markdown content from Gist data
-        const markdownContent = data.files[Object.keys(data.files)[0]].content;
-
-        // Convert Markdown to HTML
-        const converter = new showdown.Converter();
-        const htmlContent = converter.makeHtml(markdownContent);
-        setPostContent(htmlContent);
-      } catch (error) {
-        console.error('Error fetching Gist data:', error);
-      }
-    };
+export default async function PostContent({ params }) {
+    let gistId = params.id;
+    let postContent = "";
 
     if (gistId) {
-      fetchGistData();
+        const gistApiEndpoint = `https://api.github.com/gists/${gistId}`;
+
+        try {
+            const response = await fetch(gistApiEndpoint);
+            const gistData = await response.json();
+
+            const markdownContent = gistData.files[Object.keys(gistData.files)[0]].content;
+
+            const converter = new showdown.Converter();
+            postContent = converter.makeHtml(markdownContent);
+        } catch (error) {
+            console.error('Error fetching Gist:', error);
+            postContent = '<p>Error loading Gist content.</p>';
+        }
+    } else {
+        postContent = '<p>No Gist ID provided in the URL.</p>';
     }
-  }, [gistId]);
 
-  return (
-    <div>
-      <h1>My Post: {gistId}</h1>
-      {gistData && (
-        <div>
-          <p>Title: {gistData.description}</p>
-          <p>Published Date: {gistData.updated_at}</p>
-          {/* Add other relevant data here */}
-        </div>
-      )}
-      {/* Render post content as HTML */}
-      <div dangerouslySetInnerHTML={{ __html: postContent }}></div>
-      <Link href="../post/">Go Back</Link>
-    </div>
-  );
+    return (
+        <>
+            <div dangerouslySetInnerHTML={{ __html: postContent }}></div>
+        </>
+    )
 }
-
-// This is just a basic example to get you started. You can expand upon it as needed.
