@@ -38,7 +38,7 @@ export default function Container({html}){
 				</p>*/}
         <ul className="svg-list">
           <li>
-            <a href="../edit/?id=7c2c185f644945278027183ad16d3c6f" id="editbtn">
+            <a href="../edit/index.html?id=7c2c185f644945278027183ad16d3c6f" id="editbtn">
               <svg
                 style={{ height: 25 }}
                 xmlns="http://www.w3.org/2000/svg"
