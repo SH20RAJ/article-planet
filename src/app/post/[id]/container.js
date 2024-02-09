@@ -113,18 +113,7 @@ export default function Container({html}){
               </svg>
             </a>
           </li>
-          <li>
-            <a
-              id="vclink"
-              target="_blank"
-              href="https://visitorbadge.io/status?path=7c2c185f644945278027183ad16d3c6f"
-            >
-              <img
-                id="vcimg"
-                src="https://api.visitorbadge.io/api/visitors?path=7c2c185f644945278027183ad16d3c6f"
-              />
-            </a>
-          </li>
+
         </ul>
       </div>
     </div>
@@ -160,12 +149,22 @@ export default function Container({html}){
               February 6, 2024 at 2:46:12 PM GMT+5:30
             </span>
             <span className="dot" />
-            <span className="post-read">6 min read</span>
+            <a
+              id="vclink"
+              target="_blank"
+              href="https://visitorbadge.io/status?path=7c2c185f644945278027183ad16d3c6f"
+            >
+              <img
+                id="vcimg"
+                src="https://api.visitorbadge.io/api/visitors?path=7c2c185f644945278027183ad16d3c6f"
+              />
+            </a>
+          
           </div>
         </div>
         {/* End Top Menta */}
         <h1 className="posttitle" id="post-title">
-          Styling the HTML5 audio Tag with CSS and WebKit Properties
+        Write, Learn and Share Stories with the world
         </h1>
       </div>
       {/* Begin Featured Image */}
